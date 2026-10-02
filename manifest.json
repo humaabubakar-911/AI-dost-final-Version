@@ -1,0 +1,34 @@
+{
+  "name": "AI Dost - مالی دوست | Financial Inclusion Copilot",
+  "short_name": "AI Dost",
+  "description": "Your AI financial copilot for the common man in Pakistan. Budgeting, financial literacy, fraud prevention, and banking advice in Urdu and English.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#06080d",
+  "background_color": "#06080d",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["finance", "education", "utilities"]
+}
