@@ -1083,10 +1083,6 @@ select.form-input option {
           <span class="nav-item-icon">ℹ️</span>
           <span data-i18n="navAbout">About AI Dost</span>
         </button>
-        <button class="nav-item" onclick="APP.triggerInstall()" style="color: var(--accent-cyan); margin-top: 4px;">
-          <span class="nav-item-icon">📲</span>
-          <span data-i18n="installBtn">Install Mobile App</span>
-        </button>
       </nav>
 
       <div class="sidebar-footer">
@@ -1652,34 +1648,24 @@ select.form-input option {
     </div>
   </div>
 
-  <!-- Install App Guide Modal (Mobile & Desktop) -->
+    <!-- Install App Guide Modal (Mobile & Desktop) -->
   <div class="modal-overlay" id="install-guide-modal">
-    <div class="modal-box" style="max-width: 440px; text-align: center;">
-      <div style="font-size: 2.8rem; margin-bottom: 8px;">📲</div>
-      <h3 style="margin-bottom: 8px;">Install AI Dost App</h3>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;">
-        Install <strong>AI Dost (مالی دوست)</strong> on your mobile phone for fast 1-tap access, offline calculators, and voice assistant!
+    <div class="modal-box" style="max-width: 440px; text-align: center; border-radius: 20px;">
+      <div style="font-size: 3rem; margin-bottom: 8px;">📲</div>
+      <h3 style="margin-bottom: 6px; font-size: 1.3rem;">AI Dost Mobile App</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+        Apne phone ki home screen par app install karein (Fast & 100% Free):
       </p>
 
-      <div style="text-align: left; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; font-size: 0.86rem; line-height: 1.7;">
-        <div style="margin-bottom: 12px;">
-          <strong style="color: var(--accent-cyan);">🤖 Android (Google Chrome):</strong><br>
-          1. Tap the <strong>3 vertical dots (⋮)</strong> at top-right of your screen.<br>
-          2. Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.
-        </div>
-        <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px;">
-          <strong style="color: #b98ce8;">🍏 iPhone (Apple Safari):</strong><br>
-          1. Tap the <strong>Share button (📤)</strong> at the bottom of Safari.<br>
-          2. Scroll down and tap <strong>"Add to Home Screen"</strong> (ہوم اسکرین پر شامل کریں).
-        </div>
+      <div id="install-guide-content" style="text-align: left; background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 12px; padding: 16px; margin-bottom: 18px; font-size: 0.88rem; line-height: 1.7;">
       </div>
 
       <div class="modal-actions" style="justify-content: center; gap: 10px;">
-        <button class="btn-primary" onclick="APP.promptDirectInstall()" style="font-size: 0.85rem; padding: 9px 20px;">
+        <button class="btn-primary" id="modal-direct-install-btn" onclick="APP.promptDirectInstall()" style="font-size: 0.88rem; padding: 10px 22px;">
           ⚡ 1-Click Install
         </button>
-        <button class="btn-secondary" onclick="document.getElementById('install-guide-modal').classList.remove('open')" style="font-size: 0.85rem;">
-          Close
+        <button class="btn-secondary" onclick="APP.closeInstallModal()" style="font-size: 0.88rem; padding: 10px 18px;">
+          Close (بند کریں)
         </button>
       </div>
     </div>
