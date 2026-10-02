@@ -1,24 +1,31 @@
-// AI Dost Service Worker - Offline PWA Support
-const CACHE_NAME = 'ai-dost-v1.3.0';
+// AI Dost Service Worker - Offline PWA Support (v2.0)
+const CACHE_NAME = 'ai-dost-v2.0.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './assets/css/app.css',
-  './assets/js/app.js',
-  './assets/js/ai-engine.js',
-  './assets/js/voice.js',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
-  './assets/icons/favicon.png',
-  './assets/icons/icon.svg'
+  './icon-192.png',
+  './icon-512.png',
+  './favicon.png',
+  './icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+    caches.open(CACHE_NAME).then(async (cache) => {
       console.log('[AI Dost SW] Pre-caching offline assets');
-      return cache.addAll(ASSETS_TO_CACHE);
+      await Promise.allSettled(
+        ASSETS_TO_CACHE.map(async (url) => {
+          try {
+            const response = await fetch(url, { cache: 'no-cache' });
+            if (response && response.ok) {
+              await cache.put(url, response);
+            }
+          } catch (err) {
+            console.warn('[AI Dost SW] Pre-cache skipped for:', url, err);
+          }
+        })
+      );
     }).then(() => self.skipWaiting())
   );
 });
@@ -29,7 +36,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((name) => {
           if (name !== CACHE_NAME) {
-            console.log('[AI Dost SW] Removing old cache:', name);
+            console.log('[AI Dost SW] Removing legacy cache:', name);
             return caches.delete(name);
           }
         })
@@ -41,8 +48,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') return;
+  // Ignore non-http schemes (extensions, etc.)
+  if (!event.request.url.startsWith('http')) return;
 
-  // Network-first strategy with cache fallback for instant updates
+  // Pass-through live AI endpoints and external fonts
+  const url = event.request.url;
+  if (url.includes('googleapis.com') || url.includes('puter.com') || url.includes('groq.com') || url.includes('aliyuncs.com')) {
+    return;
+  }
+
+  // Network-first with cache fallback
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
@@ -59,8 +74,8 @@ self.addEventListener('fetch', (event) => {
           if (cachedResponse) {
             return cachedResponse;
           }
-          if (event.request.headers.get('accept')?.includes('text/html')) {
-            return caches.match('./index.html');
+          if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+            return caches.match('./index.html') || caches.match('./');
           }
         });
       })

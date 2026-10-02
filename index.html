@@ -546,6 +546,101 @@ body.lang-ur .nav-item {
   line-height: 1.5;
 }
 
+/* Financial Literacy Interactive Toolbar & Filter Buttons */
+.literacy-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.literacy-search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 10px 18px;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.literacy-search-bar:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 14px rgba(111, 220, 236, 0.2);
+}
+
+.literacy-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-size: 0.92rem;
+  width: 100%;
+}
+
+.literacy-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 7px 15px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category-filter-btn:hover {
+  border-color: var(--border-accent);
+  color: var(--text-main);
+}
+
+.category-filter-btn.active {
+  background: var(--grad-primary);
+  color: #06080d;
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(111, 220, 236, 0.35);
+}
+
+.literacy-card-action {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.card-action-btn {
+  background: rgba(111, 220, 236, 0.1);
+  border: 1px solid var(--border-accent);
+  color: var(--accent-cyan);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-action-btn:hover {
+  background: var(--accent-cyan);
+  color: #06080d;
+  box-shadow: 0 0 10px rgba(111, 220, 236, 0.35);
+}
+
 /* Stat Banner */
 .stats-banner {
   display: grid;
@@ -1107,8 +1202,6 @@ select.form-input option {
           <button class="install-pwa-btn" id="install-pwa-btn" onclick="APP.triggerInstall()" title="Install AI Dost on Phone or Computer">
             📲 <span data-i18n="installBtn">Install App</span>
           </button>
-            📲 <span data-i18n="installBtn">Install App</span>
-          </button>
 
           <!-- Language Switcher -->
           <div class="lang-selector">
@@ -1481,32 +1574,54 @@ select.form-input option {
 
       <!-- VIEW: FINANCIAL LITERACY -->
       <section class="page-view" id="view-learn" style="display: none;">
-        <h2 style="font-size: 1.8rem; margin-bottom: 8px;">Financial Literacy Cards</h2>
-        <p style="color: var(--text-muted); margin-bottom: 28px;">
-          Bite-sized, plain-language guides on how money works in Pakistan.
-        </p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 8px;">
+          <div>
+            <h2 style="font-size: 1.8rem; margin-bottom: 6px;" data-i18n="literacyTitle">Financial Literacy Guides & Cards</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.92rem;" data-i18n="literacySubtitle">
+              Bite-sized, practical guides on how money, banking, wallets, and wealth work in Pakistan.
+            </p>
+          </div>
+        </div>
 
-        <div class="feature-grid">
-          <div class="feature-card">
-            <span class="card-tag">INCLUSION</span>
-            <h3>What is Financial Inclusion?</h3>
-            <p>Access to safe, official financial tools (bank accounts, mobile wallets, fair credit) so you are never held hostage by unregulated cash lenders.</p>
+        <!-- Search Bar and Category Filters -->
+        <div class="literacy-toolbar">
+          <div class="literacy-search-bar">
+            <span>🔍</span>
+            <input 
+              type="text" 
+              class="literacy-search-input" 
+              id="literacy-search-input" 
+              placeholder="Search financial topics (e.g. Asaan, Raast, Solar, Bachat)..." 
+              data-i18n-placeholder="searchPlaceholder"
+              oninput="APP.onLiteracySearch(this.value)"
+            >
           </div>
-          <div class="feature-card">
-            <span class="card-tag">DIGITAL PAYMENTS</span>
-            <h3>Raast & Instant Payments</h3>
-            <p>Pakistan's zero-fee State Bank system. Link your mobile number to get payments directly without needing to remember a 24-digit IBAN.</p>
+
+          <div class="literacy-filters">
+            <button class="category-filter-btn active" onclick="APP.filterLiteracyCategory('all', this)" data-i18n="filterAll">
+              All Topics (16)
+            </button>
+            <button class="category-filter-btn" onclick="APP.filterLiteracyCategory('banking', this)" data-i18n="filterBanking">
+              💳 Banking & Wallets
+            </button>
+            <button class="category-filter-btn" onclick="APP.filterLiteracyCategory('budget', this)" data-i18n="filterBudget">
+              💰 Budget & Bachat
+            </button>
+            <button class="category-filter-btn" onclick="APP.filterLiteracyCategory('islamic', this)" data-i18n="filterIslamic">
+              🌙 Islamic Finance
+            </button>
+            <button class="category-filter-btn" onclick="APP.filterLiteracyCategory('safety', this)" data-i18n="filterSafety">
+              🚨 Fraud & Safety
+            </button>
+            <button class="category-filter-btn" onclick="APP.filterLiteracyCategory('investments', this)" data-i18n="filterInvest">
+              📈 Investments & Solar
+            </button>
           </div>
-          <div class="feature-card">
-            <span class="card-tag">SHARIAH</span>
-            <h3>Islamic Banking vs Loans</h3>
-            <p>Islamic finance trades real assets and shares risk instead of charging rent on money (Riba). Takaful provides community-pooled mutual protection.</p>
-          </div>
-          <div class="feature-card">
-            <span class="card-tag">BUFFER</span>
-            <h3>Emergency Fund Essentials</h3>
-            <p>Save 1 to 3 months of basic living costs. Storing it in an Asaan account protects you from taking loans when medical or vehicle emergencies hit.</p>
-          </div>
+        </div>
+
+        <!-- Dynamic Card Grid (Updated in Urdu, Roman Urdu & English) -->
+        <div class="feature-grid" id="financial-literacy-container">
+          <!-- Cards rendered dynamically by APP.renderLiteracyCards() -->
         </div>
       </section>
 
@@ -1649,11 +1764,11 @@ select.form-input option {
   </div>
 
     <!-- Install App Guide Modal (Mobile & Desktop) -->
-  <div class="modal-overlay" id="install-guide-modal">
+  <div class="modal-overlay" id="install-guide-modal" onclick="if(event.target === this) APP.closeInstallModal()">
     <div class="modal-box" style="max-width: 440px; text-align: center; border-radius: 20px;">
       <div style="font-size: 3rem; margin-bottom: 8px;">📲</div>
-      <h3 style="margin-bottom: 6px; font-size: 1.3rem;">AI Dost Mobile App</h3>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+      <h3 style="margin-bottom: 6px; font-size: 1.3rem;" data-i18n="installGuideTitle">AI Dost Mobile App</h3>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;" data-i18n="installGuideSubtitle">
         Apne phone ki home screen par app install karein (Fast & 100% Free):
       </p>
 
@@ -2884,7 +2999,20 @@ const APP = (function () {
       presetSalaried: 'Salaried Family',
       presetFree: 'Freelancer',
       scoreTitle: 'Financial Health Score',
-      installBtn: 'Install App'
+      installBtn: 'Install App',
+      literacyTitle: 'Financial Literacy Guides & Cards',
+      literacySubtitle: 'Bite-sized, practical guides on how money, banking, wallets, and wealth work in Pakistan.',
+      filterAll: 'All Topics (16)',
+      filterBanking: '💳 Banking & Wallets',
+      filterBudget: '💰 Budget & Bachat',
+      filterIslamic: '🌙 Islamic Finance',
+      filterSafety: '🚨 Fraud & Safety',
+      filterInvest: '📈 Investments & Solar',
+      searchPlaceholder: 'Search financial topics (e.g. Asaan, Raast, Solar, Bachat)...',
+      askTopicBtn: 'Ask AI Dost 💬',
+      appInstalled: 'Installed',
+      installGuideTitle: 'AI Dost Mobile App',
+      installGuideSubtitle: 'Install AI Dost on your phone home screen for 100% free offline & fast access'
     },
     UR: {
       brandTag: 'مالیاتی رہنما',
@@ -2923,7 +3051,20 @@ const APP = (function () {
       presetSalaried: 'تنخواہ دار خاندان',
       presetFree: 'فری لانسر',
       scoreTitle: 'مالیاتی صحت کا اسکور',
-      installBtn: 'ایپ انسٹال کریں'
+      installBtn: 'ایپ انسٹال کریں',
+      literacyTitle: 'مالیاتی شعور اور رہنمائی کارڈز',
+      literacySubtitle: 'پاکستان میں پیسے، بچت، بینکنگ، والٹس اور حلال کمائی کی آسان اور مفید رہنمائی۔',
+      filterAll: 'تمام موضوعات (16)',
+      filterBanking: '💳 بینکنگ اور والٹس',
+      filterBudget: '💰 بجٹ اور بچت',
+      filterIslamic: '🌙 اسلامی فنانس',
+      filterSafety: '🚨 فراڈ سے بچاؤ',
+      filterInvest: '📈 سرمایہ کاری و سولر',
+      searchPlaceholder: 'کوئی بھی مالیاتی موضوع تلاش کریں (مثلاً آسان اکاؤنٹ، راست، سولر، بچت)...',
+      askTopicBtn: 'اے آئی دوست سے پوچھیں 💬',
+      appInstalled: 'انسٹال ہو چکی ہے',
+      installGuideTitle: 'اے آئی دوست موبائل ایپ',
+      installGuideSubtitle: 'تیز رفتار اور مفت استعمال کے لیے ایپ کو اپنے فون کی ہوم اسکرین پر شامل کریں'
     },
     ROMAN: {
       brandTag: 'FINANCE COPILOT',
@@ -2962,7 +3103,20 @@ const APP = (function () {
       presetSalaried: 'Salaried Family',
       presetFree: 'Freelancer',
       scoreTitle: 'Financial Health Score',
-      installBtn: 'App Install Karein'
+      installBtn: 'App Install Karein',
+      literacyTitle: 'Financial Literacy Guides & Cards',
+      literacySubtitle: 'Pakistan mein paison, bachat, banking, wallets aur halal kamai ki zaroori maloomat.',
+      filterAll: 'All Topics (16)',
+      filterBanking: '💳 Banking & Wallets',
+      filterBudget: '💰 Budget & Bachat',
+      filterIslamic: '🌙 Islamic Finance',
+      filterSafety: '🚨 Fraud & Safety',
+      filterInvest: '📈 Investments & Solar',
+      searchPlaceholder: 'Koi bhi topic search karein (e.g. Asaan, Raast, Solar, Bachat)...',
+      askTopicBtn: 'AI Dost Se Poochein 💬',
+      appInstalled: 'Installed',
+      installGuideTitle: 'AI Dost Mobile App',
+      installGuideSubtitle: 'Fast aur free use ke liye app ko apne phone ki home screen par lagayein'
     }
   };
 
@@ -3001,6 +3155,7 @@ const APP = (function () {
     });
 
     applyTranslations();
+    renderLiteracyCards();
   }
 
   // Apply Translations to DOM
@@ -3010,6 +3165,12 @@ const APP = (function () {
       const key = el.getAttribute('data-i18n');
       if (t[key]) {
         el.textContent = t[key];
+      }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (t[key]) {
+        el.placeholder = t[key];
       }
     });
   }
@@ -3267,19 +3428,474 @@ const APP = (function () {
     );
   }
 
-  // PWA Setup
+  // ==========================================
+  // Financial Literacy Cards Registry (16 Topics)
+  // Available in English, Urdu (اردو), and Roman Urdu
+  // ==========================================
+  const LITERACY_CARDS = [
+    {
+      id: 'inclusion',
+      category: 'banking',
+      tag: { EN: 'INCLUSION', UR: 'شمولیت', ROMAN: 'INCLUSION' },
+      title: {
+        EN: 'What is Financial Inclusion?',
+        UR: 'مالیاتی شمولیت (Financial Inclusion) کیا ہے؟',
+        ROMAN: 'Financial Inclusion Kya Hai?'
+      },
+      desc: {
+        EN: 'Access to safe, official financial tools (bank accounts, mobile wallets, fair credit) so you are never held hostage by unregulated cash lenders, extortionate interest, or cash handling risks.',
+        UR: 'ہر شہری کی سرکاری اور محفوظ مالیاتی سہولیات (بینک اکاؤنٹ، موبائل والٹس اور جائز قرض) تک رسائی تاکہ وہ پرائیویٹ سود خوروں کے چنگل اور بھاری کٹوتیوں سے محفوظ رہ سکے۔',
+        ROMAN: 'Her aam shehri ki bank account, mobile wallets aur jaiz qarz tak rasai taake woh sood-khoron aur high deductions se mehfooz reh sakay.'
+      },
+      actionPrompt: 'What is financial inclusion and why is it important in Pakistan?'
+    },
+    {
+      id: 'asaan_account',
+      category: 'banking',
+      tag: { EN: 'BANKING', UR: 'آسان اکاؤنٹ', ROMAN: 'BANKING' },
+      title: {
+        EN: 'Asaan Digital & Bank Account',
+        UR: 'اسٹیٹ بینک آسان اکاؤنٹ (بغیر آمدنی ثبوت)',
+        ROMAN: 'Asaan Bank Account (Zero Paperwork)'
+      },
+      desc: {
+        EN: 'Open a fully functional bank account with only your original CNIC and Rs. 100 initial deposit. No salary slips or income proof required. Protected up to Rs. 500,000 by State Bank Deposit Protection Corp.',
+        UR: 'صرف شناختی کارڈ اور 100 روپے سے کسی بھی بینک میں قانونی اکاؤنٹ کھولیں۔ آمدنی کے ثبوت کی ضرورت نہیں۔ اسٹیٹ بینک 5 لاکھ روپے تک رقم کا مکمل قانونی تحفظ فراہم کرتا ہے۔',
+        ROMAN: 'Sirf CNIC aur Rs. 100 se kisi bhi bank mein account khulwayein. Income proof ki koi zaroorat nahi. SBP 5 lakh tak legal security deta hai.'
+      },
+      actionPrompt: 'How do I open an Asaan Account in Pakistan and what are its benefits?'
+    },
+    {
+      id: 'raast',
+      category: 'banking',
+      tag: { EN: 'DIGITAL PAYMENTS', UR: 'راست ادائیگیاں', ROMAN: 'RAAST FREE' },
+      title: {
+        EN: 'Raast Instant Payments (0% Fee)',
+        UR: 'راست فوری اور مفت ادائیگیوں کا قومی نظام',
+        ROMAN: 'Raast Instant Free Payments'
+      },
+      desc: {
+        EN: "Pakistan's State Bank-backed instant payment gateway. 100% free transfers. Link your phone number as your Raast ID to receive money instantly without typing a 24-digit IBAN.",
+        UR: 'اسٹیٹ بینک کا بالکل مفت اور فوری رقم بھیجنے کا نظام۔ اپنے موبائل نمبر کو راست آئی ڈی بنا لیں اور 24 ہندسوں والے لمبے IBAN کے بغیر براہ راست رقم وصول کریں۔',
+        ROMAN: 'SBP ka 100% free instant payment system. Mobile number ko Raast ID banayein aur lamba IBAN likhe baghair foran paisay receive karein.'
+      },
+      actionPrompt: 'How do I activate and use Raast in my bank or mobile wallet app?'
+    },
+    {
+      id: 'wallets',
+      category: 'banking',
+      tag: { EN: 'WALLETS', UR: 'موبائل والٹس', ROMAN: 'WALLETS' },
+      title: {
+        EN: 'Mobile Wallets & Biometric Upgrade',
+        UR: 'ایزی پیسہ، جاز کیش اور بائیو میٹرک حد',
+        ROMAN: 'Easypaisa & JazzCash Limit Upgrade'
+      },
+      desc: {
+        EN: 'Easypaisa, JazzCash, SadaPay & NayaPay give instant money control. Complete biometric thumb verification at any retailer or via app to raise your monthly limit from Rs. 50,000 to Rs. 400,000+.',
+        UR: 'ایزی پیسہ، جاز کیش، اور سادہ پے سے پیسوں کا مکمل کنٹرول حاصل کریں۔ قریبی ریٹیلر یا ایپ سے نادرا انگوٹھا تصدیق کروا کر ماہانہ حد 50 ہزار سے بڑھا کر 4 لاکھ روپے تک کریں۔',
+        ROMAN: 'Easypaisa aur JazzCash ki monthly limit 50,000 se barha kar 4 lakh karne ke liye biometric thumb verification zaroor karwayein.'
+      },
+      actionPrompt: 'How do I upgrade my Easypaisa or JazzCash account limit using biometric verification?'
+    },
+    {
+      id: 'budget_rule',
+      category: 'budget',
+      tag: { EN: 'BUDGETING', UR: 'بجٹ فارمولا', ROMAN: '50/30/20 RULE' },
+      title: {
+        EN: '50/30/20 Budgeting Rule',
+        UR: '50/30/20 گھریلو بجٹ کا سنہری اصول',
+        ROMAN: '50/30/20 Gharelu Budget Formula'
+      },
+      desc: {
+        EN: 'Divide monthly take-home income into: 50% Needs (ration, rent, electricity, school fees), 30% Wants (clothing, tea, dining, personal items), and 20% Bachat/Savings into a dedicated emergency fund.',
+        UR: 'ماہانہ آمدنی کو تقسیم کریں: 50 فیصد بنیادی ضروریات (راشن، کرایہ، بل)، 30 فیصد خواہشات (کپڑے، تفریح)، اور 20 فیصد محفوظ بچت جو الگ اکاؤنٹ میں رکھیں۔',
+        ROMAN: 'Apni amdan ka 50% zarooriat (ration, bijli bill), 30% khwahishat, aur 20% emergency bachat mein alag rakhain.'
+      },
+      actionPrompt: 'Explain the 50/30/20 budget rule for a Pakistani household.'
+    },
+    {
+      id: 'kameti_vs_bank',
+      category: 'budget',
+      tag: { EN: 'SAVINGS', UR: 'کمیٹی بمقابلہ بینک', ROMAN: 'KAMETI VS BANK' },
+      title: {
+        EN: 'Kameti vs Bank Savings Accounts',
+        UR: 'کمیٹی بمقابلہ بینک سیونگز اور بچت',
+        ROMAN: 'Kameti vs Bank Bachat Account'
+      },
+      desc: {
+        EN: 'Kameti builds forced discipline but carries 100% loss risk if the organizer defaults or absconds. Digital wallet saving pockets or Asaan accounts give legal SBP protection, halal returns, and 24/7 ATM access.',
+        UR: 'کمیٹی بچت کی عادت ڈالتی ہے لیکن کمیٹی والا بھاگ جائے تو رقم ڈوب جاتی ہے۔ بینک یا والٹ میں بچت رکھنے پر اسٹیٹ بینک کا قانونی تحفظ، حلال منافع اور 24 گھنٹے اے ٹی ایم سہولت ملتی ہے۔',
+        ROMAN: 'Kameti mein risk bohot zyada hota hai. Bank ya digital wallet mein bachat rakhna 100% legal aur mehfooz tareen rasta hai.'
+      },
+      actionPrompt: 'What are the pros and cons of Kameti compared to bank savings in Pakistan?'
+    },
+    {
+      id: 'emergency_fund',
+      category: 'budget',
+      tag: { EN: 'BUFFER', UR: 'ایمرجنسی فنڈ', ROMAN: 'EMERGENCY FUND' },
+      title: {
+        EN: 'Emergency Fund Essentials',
+        UR: 'ایمرجنسی فنڈ کیوں اور کتنا ضروری ہے؟',
+        ROMAN: 'Emergency Fund Kyun Zaroori Hai?'
+      },
+      desc: {
+        EN: 'Maintain 1 to 3 months of basic living expenses in an easily accessible account. This buffer prevents you from borrowing at extortionate interest when medical emergencies, sudden layoffs, or vehicle repairs hit.',
+        UR: 'کم از کم 1 سے 3 ماہ کے گھریلو اخراجات کسی الگ اکاؤنٹ میں محفوظ رکھیں۔ یہ فنڈ اچانک بیماری یا موٹر سائیکل کی خرابی کی صورت میں سودی قرض مانگنے سے بچاتا ہے۔',
+        ROMAN: '1 se 3 maheenay ke kharchay ka emergency fund alag rakhain taake kisi achanak musibat mein qarz na mangna paray.'
+      },
+      actionPrompt: 'How much emergency fund should a Pakistani family keep and where should it be saved?'
+    },
+    {
+      id: 'islamic_finance',
+      category: 'islamic',
+      tag: { EN: 'SHARIAH', UR: 'اسلامی فنانس', ROMAN: 'ISLAMIC FINANCE' },
+      title: {
+        EN: 'Islamic Banking vs Conventional Loans',
+        UR: 'اسلامی بینکنگ بمقابلہ سودی قرض (ربوا)',
+        ROMAN: 'Islamic Banking vs Soodi Loans'
+      },
+      desc: {
+        EN: 'Islamic finance trades tangible assets (Murabaha/Ijarah) and shares commercial risk rather than charging interest on pure money debts (Riba). Takaful provides Shariah-compliant mutual insurance protection.',
+        UR: 'اسلامی بینکنگ روپے پر روپیہ (سود) کمانے کے بجائے حقیقی اشیاء کی خرید و فروخت اور نفع و نقصان میں شراکت پر کام کرتی ہے۔ تکافل شرعی انشورنس فراہم کرتا ہے۔',
+        ROMAN: 'Islamic banking Riba (sood) ke bajaye asal samaan ki tijarat (Murabaha/Ijarah) karti hai aur Takaful mutual tahaffuz deta hai.'
+      },
+      actionPrompt: 'What is the difference between Islamic banking and conventional bank loans in Pakistan?'
+    },
+    {
+      id: 'akhuwat',
+      category: 'islamic',
+      tag: { EN: 'MICROFINANCE', UR: 'قرضِ حسنہ', ROMAN: 'QARZ-E-HASNA' },
+      title: {
+        EN: 'Akhuwat Foundation (Interest-Free Loans)',
+        UR: 'اخوت فاؤنڈیشن سود سے پاک قرضِ حسنہ',
+        ROMAN: 'Akhuwat Interest-Free Business Loans'
+      },
+      desc: {
+        EN: "Pakistan's largest interest-free microfinance program. Offers Rs. 25,000 to Rs. 100,000 with 0% markup for small shops, rickshaws, youth education, and family enterprises with easy installments.",
+        UR: 'پاکستان کا سب سے بڑا سود سے پاک قرضِ حسنہ ادارہ۔ چھوٹی دکانوں، رکشہ اور گھریلو روزگار کے لیے 25 ہزار سے 1 لاکھ روپے تک بغیر کسی سود اور منافع کے فراہم کرتا ہے۔',
+        ROMAN: 'Akhuwat se chotay karobar ya dukan ke liye Rs. 25,000 se 100,000 tak bilkul sood se pak Qarz-e-Hasna milta hai.'
+      },
+      actionPrompt: 'How can an ordinary citizen apply for an Akhuwat interest-free microfinance loan?'
+    },
+    {
+      id: 'loan_app_scam',
+      category: 'safety',
+      tag: { EN: 'SAFETY ALERT', UR: 'فراڈ الرٹ', ROMAN: 'SCAM WARNING' },
+      title: {
+        EN: 'Illegal 7-Day Loan Apps Scam',
+        UR: 'غیر قانونی آن لائن لون ایپس کا خطرناک جال',
+        ROMAN: 'Online Loan Apps Ka Blackmail Trap'
+      },
+      desc: {
+        EN: 'Apps promising instant loans deduct massive hidden charges, demand 100%+ weekly repayment, and steal your photo gallery to blackmail family contacts. File instant complaints via FIA Cybercrime Helpline 1991.',
+        UR: '5 منٹ میں قرض دینے والی غیر قانونی ایپس 100 فیصد سے زائد ہفتہ وار سود لیتی ہیں اور آپ کی تصاویر چرا کر رشتہ داروں کو بلیک میل کرتی ہیں۔ فوری رپورٹ ایف آئی اے 1991 پر کریں۔',
+        ROMAN: '5 minute mein qarz denay wali apps contacts chura kar blackmail karti hain. Aisi apps se door rahain aur FIA 1991 par complaint karein.'
+      },
+      actionPrompt: 'How do illegal loan apps scam people in Pakistan and how do I report them to FIA Cybercrime 1991?'
+    },
+    {
+      id: 'otp_protection',
+      category: 'safety',
+      tag: { EN: 'SAFETY', UR: 'حفاظت اصول', ROMAN: 'SAFETY RULES' },
+      title: {
+        EN: 'Stop OTP Theft & Fake 8171 Messages',
+        UR: 'او ٹی پی چوری اور جعلی 8171 پیغامات سے بچاؤ',
+        ROMAN: 'OTP Chori Aur Fake SMS Se Bachao'
+      },
+      desc: {
+        EN: 'Never share your 4/5-digit Wallet MPIN or SMS OTP with callers claiming to be bank managers. Legitimate BISP notifications arrive exclusively from short-code 8171, never from private 11-digit mobile SIMs.',
+        UR: 'اپنا او ٹی پی (OTP) یا پاس ورڈ کبھی کسی کو فون پر مت بتائیں۔ بے نظیر انکم سپورٹ کے پیغامات صرف 8171 سے آتے ہیں، کسی پرائیویٹ موبائل نمبر سے نہیں۔',
+        ROMAN: 'Kabhi kisi ko call par apna SMS OTP ya MPIN na batayein. BISP ka official SMS sirf 8171 se ata hai, aam mobile number se nahi.'
+      },
+      actionPrompt: 'What are the main financial scams in Pakistan and how can I protect my mobile wallet?'
+    },
+    {
+      id: 'electricity_bills',
+      category: 'budget',
+      tag: { EN: 'UTILITY BILLS', UR: 'بجلی بل بچت', ROMAN: 'BIJLI BILLS' },
+      title: {
+        EN: 'Cutting Electricity Bills & Protected Slab',
+        UR: 'بجلی کے بلوں میں کمی اور پروٹیکٹڈ سلیب',
+        ROMAN: 'Bijli Ka Bill Kam Karne Ke Formula'
+      },
+      desc: {
+        EN: 'Staying consecutively under 200 units qualifies you for subsidized protected tariffs (~Rs. 10-14/unit). Crossing 201 units doubles rates instantly. Avoid water pumps, irons, and ACs during peak hours (5 PM - 11 PM).',
+        UR: 'ماہانہ 200 یونٹ سے کم بجلی استعمال کر کے پروٹیکٹڈ سلیب میں رہیں۔ شام 5 سے رات 11 بجے پیک اوقات میں استری، پانی کی موٹر اور واشنگ مشین مت چلائیں۔',
+        ROMAN: '200 units se kam rakhain taake protected slab rate milay. Sham 5 se 11 bajay ke doran bhaari bijli appliances bilkul mat chalayein.'
+      },
+      actionPrompt: 'How does the 200 units protected electricity slab work and how can I cut my bill in Pakistan?'
+    },
+    {
+      id: 'solar_financing',
+      category: 'investments',
+      tag: { EN: 'SOLAR ENERGY', UR: 'سولر اسکیم', ROMAN: 'SOLAR ENERGY' },
+      title: {
+        EN: 'Solar Systems & SBP Green Financing',
+        UR: 'سولر سسٹمز اور آسان بینک اقساط',
+        ROMAN: 'Solar Systems & Bank Installments'
+      },
+      desc: {
+        EN: 'A 1kW to 3kW solar setup saves Rs. 8,000 – 15,000 monthly on electricity bills. State Bank of Pakistan Islamic green energy schemes enable purchasing solar setups on low-rate manageable monthly installments.',
+        UR: '1 سے 3 کلو واٹ سولر سسٹم ماہانہ 8 سے 15 ہزار روپے کی بچت دیتا ہے۔ اسٹیٹ بینک کی گرین اسکیم کے تحت بینکوں سے آسان اقساط پر سولر لگوایا جا سکتا ہے۔',
+        ROMAN: '1kW se 3kW solar system mahana hazaron rupay bijli bill bachata hai. Banks se Islamic clean energy qiston par solar lagwa saktay hain.'
+      },
+      actionPrompt: 'What is the cost of a 1kW to 3kW solar system in Pakistan and how does SBP solar financing work?'
+    },
+    {
+      id: 'mutual_funds',
+      category: 'investments',
+      tag: { EN: 'HALAL WEALTH', UR: 'میوچل فنڈز', ROMAN: 'MUTUAL FUNDS' },
+      title: {
+        EN: 'Mutual Funds & Daily Halal Income',
+        UR: 'میوچل فنڈز اور روزانہ حلال منافع',
+        ROMAN: 'Mutual Funds & Halal Income'
+      },
+      desc: {
+        EN: 'SECP-regulated Islamic money market funds (e.g. Meezan MRAF, Al-Ameen) earn 12% to 16% annual returns with daily profit crediting. Start with as little as Rs. 1,000 and withdraw anytime without lock-in.',
+        UR: 'ایس ای سی پی سے منظور شدہ اسلامی میوچل فنڈز سالانہ 12 سے 16 فیصد حلال منافع دیتے ہیں۔ آپ صرف 1,000 روپے سے شروع کر سکتے ہیں اور جب چاہیں رقم واپس نکال سکتے ہیں۔',
+        ROMAN: 'Islamic Money Market Funds (Meezan, UBL) mein 12-16% halal munafa milta hai. Sirf 1,000 se shuru karein aur jab chahein withdraw karein.'
+      },
+      actionPrompt: 'How do Islamic money market mutual funds work in Pakistan and how do I start with Rs. 1,000?'
+    },
+    {
+      id: 'credit_card_trap',
+      category: 'budget',
+      tag: { EN: 'DEBT ALERT', UR: 'قرض سے بچاؤ', ROMAN: 'CREDIT CARDS' },
+      title: {
+        EN: 'Credit Card Minimum Payment Trap',
+        UR: 'کریڈٹ کارڈ کا قرض اور سود کا چکر',
+        ROMAN: 'Credit Card Minimum Payment Trap'
+      },
+      desc: {
+        EN: "Paying only the 'Minimum Amount Due' on credit cards triggers 40%+ compounded annual interest, trapping cardholders in perpetual debt. Always pay 100% of your statement balance before the due date.",
+        UR: "کریڈٹ کارڈ پر صرف 'کم سے کم قسط' (Minimum Payment) ادا کرنے سے 40 فیصد سے زیادہ سود لگتا ہے جس سے قرض بڑھتا رہتا ہے۔ ہمیشہ پورا بل ادا کریں۔",
+        ROMAN: 'Credit card par sirf minimum payment karne se 40% se zyada sood lagta hai. Hamesha mahinay ke aakhir mein poora bill pay karein.'
+      },
+      actionPrompt: 'Why is paying only minimum due on credit cards dangerous and how do I clear credit card debt?'
+    },
+    {
+      id: 'tax_filer',
+      category: 'banking',
+      tag: { EN: 'TAX SAVINGS', UR: 'ٹیکس آگاہی', ROMAN: 'TAX FILER' },
+      title: {
+        EN: 'Tax Filer vs Non-Filer Benefits',
+        UR: 'فائلر بننے کے مالیاتی اور بینکنگ فائدے',
+        ROMAN: 'Filer vs Non-Filer Tax Savings'
+      },
+      desc: {
+        EN: 'Active Taxpayer List (ATL) filers pay 50% less withholding tax on cash withdrawals, property purchases, vehicle registration, and bank profit. Becoming a filer takes under 20 minutes via FBR Iris portal.',
+        UR: 'ایف بی آر میں فائلر بننے سے بینک سے رقم نکالنے، منافع، گاڑی اور جائیداد کی خریداری پر 50 فیصد تک کم ٹیکس کٹتا ہے۔ آسان آن لائن گوشوارہ جمع کروائیں۔',
+        ROMAN: 'Filer banne se bank withdrawal, munafa aur gari khareednay par aadha (50% less) withholding tax lagta hai.'
+      },
+      actionPrompt: 'What are the practical financial benefits of becoming a tax filer in Pakistan?'
+    }
+  ];
+
+  let currentLiteracyFilter = 'all';
+  let currentLiteracySearch = '';
+
+  function renderLiteracyCards() {
+    const container = document.getElementById('financial-literacy-container');
+    if (!container) return;
+
+    const lang = state.lang || 'EN';
+    const query = (currentLiteracySearch || '').toLowerCase().trim();
+
+    const filtered = LITERACY_CARDS.filter(card => {
+      const matchCat = currentLiteracyFilter === 'all' || card.category === currentLiteracyFilter;
+      if (!matchCat) return false;
+
+      if (!query) return true;
+      const title = (card.title[lang] || card.title.EN).toLowerCase();
+      const desc = (card.desc[lang] || card.desc.EN).toLowerCase();
+      const tag = (card.tag[lang] || card.tag.EN).toLowerCase();
+      return title.includes(query) || desc.includes(query) || tag.includes(query);
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-muted); background: var(--bg-card); border: 1px dashed var(--border-subtle); border-radius: var(--radius-md);">
+          <div style="font-size: 2.6rem; margin-bottom: 12px;">🔍</div>
+          <h4 style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 6px;">
+            ${lang === 'UR' ? 'کوئی کارڈ نہیں ملا' : (lang === 'ROMAN' ? 'Koi card nahi mila' : 'No matching cards found')}
+          </h4>
+          <p style="font-size: 0.88rem;">
+            ${lang === 'UR' ? 'تلاش کا لفظ تبدیل کریں یا اوپر "تمام موضوعات" منتخب کریں۔' : (lang === 'ROMAN' ? 'Search keyword change karein ya All Topics select karein.' : 'Try a different search keyword or select All Topics.')}
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(card => {
+      const title = card.title[lang] || card.title.EN;
+      const desc = card.desc[lang] || card.desc.EN;
+      const tag = card.tag[lang] || card.tag.EN;
+      const actionLabel = lang === 'UR' ? 'اے آئی دوست سے پوچھیں 💬' : (lang === 'ROMAN' ? 'AI Dost Se Poochein 💬' : 'Ask AI Dost 💬');
+
+      return `
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="card-tag">${escapeHtml(tag)}</span>
+            <h3 style="font-size: 1.15rem; margin-bottom: 10px; line-height: 1.4;">${escapeHtml(title)}</h3>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: var(--text-muted);">${escapeHtml(desc)}</p>
+          </div>
+          <div class="literacy-card-action">
+            <button class="card-action-btn" onclick="APP.askTopic('${escapeHtml(card.actionPrompt)}')" title="Ask AI about this topic">
+              ${actionLabel}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterLiteracyCategory(cat, btnEl) {
+    currentLiteracyFilter = cat;
+    document.querySelectorAll('.category-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    renderLiteracyCards();
+  }
+
+  function onLiteracySearch(query) {
+    currentLiteracySearch = query;
+    renderLiteracyCards();
+  }
+
+  function askTopic(query) {
+    setTab('assistant');
+    const input = document.getElementById('chat-input-field');
+    if (input) {
+      input.value = query;
+    }
+    sendMessage(query);
+  }
+
+  // PWA Setup & Installation Handler (Mobile & Desktop)
   function initPWA() {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       state.deferredPrompt = e;
       const installBtn = document.getElementById('install-pwa-btn');
-      if (installBtn) installBtn.style.display = 'inline-flex';
+      if (installBtn) {
+        installBtn.style.display = 'inline-flex';
+        installBtn.title = 'Ready to install on your device';
+      }
+      console.log('[AI Dost PWA] beforeinstallprompt event captured successfully');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      state.deferredPrompt = null;
+      console.log('[AI Dost PWA] App successfully installed');
+      const installBtn = document.getElementById('install-pwa-btn');
+      if (installBtn) {
+        installBtn.innerHTML = '✅ <span data-i18n="appInstalled">Installed</span>';
+      }
     });
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log('[AI Dost PWA] Service Worker Registered'))
+        .then((reg) => console.log('[AI Dost PWA] Service Worker Registered, scope:', reg.scope))
         .catch(err => console.log('[AI Dost PWA] SW registration failed:', err));
+    }
+  }
+
+  function openInstallModal() {
+    const modal = document.getElementById('install-guide-modal');
+    if (!modal) return;
+    const content = document.getElementById('install-guide-content');
+    const directBtn = document.getElementById('modal-direct-install-btn');
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    if (isInstalled) {
+      if (content) {
+        content.innerHTML = `
+          <div style="text-align: center; padding: 10px 0;">
+            <div style="font-size: 2.2rem; margin-bottom: 8px;">✅</div>
+            <strong style="color: var(--accent-green); font-size: 1rem;">AI Dost is Already Installed!</strong>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">
+              You are already running the full standalone app from your home screen.
+            </p>
+          </div>`;
+      }
+      if (directBtn) directBtn.style.display = 'none';
+      modal.classList.add('open');
+      return;
+    }
+
+    if (state.deferredPrompt) {
+      if (directBtn) directBtn.style.display = 'inline-flex';
+      if (content) {
+        content.innerHTML = `
+          <div style="margin-bottom: 8px;">
+            <strong style="color: var(--accent-cyan); font-size: 0.95rem;">⚡ Direct 1-Click Install Ready:</strong>
+          </div>
+          <p style="margin: 0 0 10px 0; color: var(--text-main);">
+            Tap <strong>"1-Click Install"</strong> below to add AI Dost to your home screen with zero app store hassle!
+          </p>
+          <div style="font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            اردو: نیچے دیے گئے "1-Click Install" بٹن کو دبائیں اور ایپ کو اپنے فون کی ہوم اسکرین پر شامل کریں۔
+          </div>
+        `;
+      }
+    } else if (isIOS) {
+      if (directBtn) directBtn.style.display = 'none';
+      if (content) {
+        content.innerHTML = `
+          <div style="margin-bottom: 10px;">
+            <strong style="color: var(--accent-cyan); font-size: 0.95rem;">🍎 iPhone / iPad (Safari Browser):</strong>
+          </div>
+          <ol style="margin: 0; padding-left: 20px; color: var(--text-main); line-height: 1.8;">
+            <li>Safari سکرین کے نیچے <strong>Share بٹن</strong> ( <span style="font-size: 1.15rem;">📤</span> ) دبائیں۔</li>
+            <li>تھوڑا نیچے اسکرول کر کے <strong>"Add to Home Screen" ( <span style="font-size: 1.15rem;">➕</span> )</strong> منتخب کریں۔</li>
+            <li>اوپر دائیں کونے میں <strong>"Add"</strong> پر ٹیپ کریں۔</li>
+          </ol>
+          <div style="margin-top: 12px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <strong>English:</strong> Tap the Safari Share button (📤) at the bottom, then choose <em>"Add to Home Screen" (➕)</em> and tap <em>"Add"</em>.
+          </div>
+        `;
+      }
+    } else {
+      if (directBtn) directBtn.style.display = 'none';
+      if (content) {
+        content.innerHTML = `
+          <div style="margin-bottom: 10px;">
+            <strong style="color: var(--accent-cyan); font-size: 0.95rem;">📱 Android / Chrome Browser:</strong>
+          </div>
+          <ol style="margin: 0; padding-left: 20px; color: var(--text-main); line-height: 1.8;">
+            <li>براؤزر کے اوپر دائیں کونے میں <strong>تین ڈاٹس ( <span style="font-weight: bold; font-size: 1.1rem;">⋮</span> )</strong> دبائیں۔</li>
+            <li>مینیو میں سے <strong>"Install app"</strong> یا <strong>"Add to Home screen"</strong> منتخب کریں۔</li>
+            <li>تصدیق کے لیے <strong>"Install"</strong> پر کلک کریں۔</li>
+          </ol>
+          <div style="margin-top: 12px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 8px;">
+            <strong>English / PC:</strong> Tap the Chrome menu (⋮) -> select <em>"Install AI Dost"</em> or <em>"Add to Home screen"</em>.
+          </div>
+        `;
+      }
+    }
+
+    modal.classList.add('open');
+  }
+
+  function closeInstallModal() {
+    const modal = document.getElementById('install-guide-modal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  function promptDirectInstall() {
+    if (state.deferredPrompt) {
+      state.deferredPrompt.prompt();
+      state.deferredPrompt.userChoice.then((choice) => {
+        if (choice.outcome === 'accepted') {
+          console.log('[AI Dost] User accepted direct install');
+        }
+        state.deferredPrompt = null;
+        closeInstallModal();
+      });
+    } else {
+      closeInstallModal();
     }
   }
 
@@ -3293,7 +3909,7 @@ const APP = (function () {
         state.deferredPrompt = null;
       });
     } else {
-      alert("To install: Open in Google Chrome / Safari and select 'Add to Home Screen' from the menu.");
+      openInstallModal();
     }
   }
 
@@ -3583,6 +4199,12 @@ const APP = (function () {
     applyPreset,
     setBudgetStep,
     triggerInstall,
+    openInstallModal,
+    closeInstallModal,
+    promptDirectInstall,
+    filterLiteracyCategory,
+    onLiteracySearch,
+    askTopic,
     openApiModal,
     closeApiModal,
     saveApiSettings,

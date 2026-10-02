@@ -1,7 +1,7 @@
 {
   "name": "AI Dost - مالی دوست | Financial Inclusion Copilot",
   "short_name": "AI Dost",
-  "description": "Your AI financial copilot for the common man in Pakistan. Budgeting, financial literacy, fraud prevention, and banking advice in Urdu and English.",
+  "description": "Your AI financial copilot for the common man in Pakistan. Budgeting, financial literacy, fraud prevention, and banking advice in Urdu, Roman Urdu, and English.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -12,21 +12,33 @@
   "dir": "ltr",
   "icons": [
     {
-      "src": "assets/icons/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/icons/icon.svg",
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
       "purpose": "any"
     }
   ],
